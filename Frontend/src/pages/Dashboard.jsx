@@ -1,37 +1,36 @@
-import { useState, useEffect } from "react";
+// Dashboard.jsx
+// The main overview page. Layout (Sidebar + Navbar) is handled by the
+// parent <Layout /> route wrapper — this component only renders content.
 
-import "../styles/dashboard.css";
-import socket from "../socket";
+import { useState, useEffect } from 'react';
 
-import Navbar from "../components/layout/Navbar";
-import Sidebar from "../components/layout/Sidebar";
-import DashboardCards from "../components/dashboard/DashboardCards";
-import LiveMap from "../components/map/LiveMap";
-import VehicleTable from "../components/vehicles/VehicleTable";
-import AlertPanel from "../components/alerts/AlertPanel";
+import '../styles/dashboard.css';
+import socket from '../socket';
 
-import { getVehicles, getAlerts } from "../services/api";
+import DashboardCards from '../components/dashboard/DashboardCards';
+import LiveMap        from '../components/map/LiveMap';
+import VehicleTable   from '../components/vehicles/VehicleTable';
+import AlertPanel     from '../components/alerts/AlertPanel';
+
+import { getVehicles, getAlerts } from '../services/api';
 
 function Dashboard() {
   const [vehicles, setVehicles] = useState([]);
-  const [alerts, setAlerts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [alerts,   setAlerts]   = useState([]);
+  const [loading,  setLoading]  = useState(true);
+  const [error,    setError]    = useState(null);
 
   const loadData = async () => {
     try {
       setLoading(true);
-
       const vehicleData = await getVehicles();
       setVehicles(vehicleData);
-
       const alertData = await getAlerts();
       setAlerts(alertData);
-
       setError(null);
     } catch (err) {
       console.error(err);
-      setError("Failed to fetch data");
+      setError('Failed to fetch data');
     } finally {
       setLoading(false);
     }
@@ -42,88 +41,52 @@ function Dashboard() {
 
     socket.connect();
 
-    socket.on("connect", () => {
-      console.log("🟢 Socket Connected:", socket.id);
-    });
+    socket.on('connect', () => console.log('🟢 Socket Connected:', socket.id));
 
-    socket.on("telemetry-update", (telemetry) => {
-      console.log("📡 Telemetry:", telemetry);
-
+    socket.on('telemetry-update', (telemetry) => {
       setVehicles((prev) =>
-        prev.map((vehicle) => {
-          if (vehicle.vehicleId !== telemetry.vehicleId) {
-            return vehicle;
-          }
-
-          return {
-            ...vehicle,
-            currentLocation: {
-              latitude: telemetry.latitude,
-              longitude: telemetry.longitude,
-            },
-            speed: telemetry.speed,
-            fuel: telemetry.fuel,
-            updatedAt: telemetry.timestamp,
-          };
-        })
+        prev.map((v) =>
+          v.vehicleId !== telemetry.vehicleId
+            ? v
+            : {
+                ...v,
+                currentLocation: { latitude: telemetry.latitude, longitude: telemetry.longitude },
+                speed:     telemetry.speed,
+                fuel:      telemetry.fuel,
+                updatedAt: telemetry.timestamp,
+              }
+        )
       );
     });
 
-    socket.on("new-alert", (alert) => {
-      console.log("🚨 Alert:", alert);
-
+    socket.on('new-alert', (alert) => {
       setAlerts((prev) => [alert, ...prev]);
     });
 
     return () => {
-      socket.off("telemetry-update");
-      socket.off("new-alert");
+      socket.off('telemetry-update');
+      socket.off('new-alert');
       socket.disconnect();
     };
   }, []);
 
   return (
-    <div className="app-layout">
-      <Sidebar />
-
-      <div className="main-area">
-        <Navbar />
-
-        <main className="page-content">
-
-          <div className="page-header">
-            <div>
-              <h1 className="page-heading">Dashboard</h1>
-              <p className="page-subheading">
-                Fleet Telemetry Overview
-              </p>
-            </div>
-
-            <span className="page-header-badge">
-              Live View
-            </span>
-          </div>
-
-          <DashboardCards
-            vehicles={vehicles}
-            alerts={alerts}
-            loading={loading}
-            error={error}
-          />
-
-          <LiveMap vehicles={vehicles} />
-
-          <VehicleTable
-            vehicles={vehicles}
-            loading={loading}
-            error={error}
-          />
-
-          <AlertPanel alerts={alerts} />
-
-        </main>
+    <>
+      {/* Page header */}
+      <div className="page-header">
+        <div>
+          <h1 className="page-heading">Dashboard</h1>
+          <p className="page-subheading">Fleet Telemetry Overview</p>
+        </div>
+        <span className="page-header-badge">Live View</span>
       </div>
-    </div>
+
+      {/* Dashboard sections — identical to original */}
+      <DashboardCards vehicles={vehicles} alerts={alerts} loading={loading} error={error} />
+      <LiveMap vehicles={vehicles} />
+      <VehicleTable vehicles={vehicles} loading={loading} error={error} />
+      <AlertPanel alerts={alerts} />
+    </>
   );
 }
 

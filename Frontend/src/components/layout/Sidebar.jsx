@@ -1,14 +1,11 @@
 // Sidebar.jsx
-// Left-side navigation panel for FleetDash.
-// Shows the app logo and a list of nav links.
-// Uses local state to track which item is currently "active".
+// Left-side navigation panel. Uses React Router NavLink for routing.
+// Design is UNCHANGED from original — same colors, fonts, spacing, icons.
 
-import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import '../../styles/sidebar.css';
 
 // ── Inline SVG icons ─────────────────────────────────────────────────
-// Keeping them here avoids installing an icon library.
-// Each icon is a tiny SVG that uses currentColor so CSS can control the color.
 
 function IconDashboard() {
   return (
@@ -61,6 +58,15 @@ function IconReports() {
   );
 }
 
+function IconGeofences() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
 function IconSettings() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -70,31 +76,27 @@ function IconSettings() {
   );
 }
 
-// ── Nav items list ────────────────────────────────────────────────────
-// Keeping this as a plain array makes it easy to add/remove items later.
+// ── Nav items ─────────────────────────────────────────────────────────
 const navItems = [
-  { label: 'Dashboard',     icon: <IconDashboard /> },
-  { label: 'Vehicles',      icon: <IconVehicles /> },
-  { label: 'Live Tracking', icon: <IconTracking /> },
-  { label: 'Alerts',        icon: <IconAlerts /> },
-  { label: 'Reports',       icon: <IconReports /> },
-  { label: 'Settings',      icon: <IconSettings /> },
+  { label: 'Dashboard',     to: '/',          icon: <IconDashboard />,  end: true },
+  { label: 'Vehicles',      to: '/vehicles',  icon: <IconVehicles /> },
+  { label: 'Live Tracking', to: '/tracking',  icon: <IconTracking /> },
+  { label: 'Alerts',        to: '/alerts',    icon: <IconAlerts /> },
+  { label: 'Reports',       to: '/reports',   icon: <IconReports /> },
+  { label: 'Geofences',     to: '/geofences', icon: <IconGeofences /> },
+  { label: 'Settings',      to: '/settings',  icon: <IconSettings /> },
 ];
 
 // ── Component ─────────────────────────────────────────────────────────
 function Sidebar() {
-  // Track which nav item is selected. "Dashboard" is active by default.
-  const [activeItem, setActiveItem] = useState('Dashboard');
-
   return (
     <aside className="sidebar">
 
-      {/* App logo and name */}
+      {/* App logo */}
       <div className="sidebar-logo">
         <div className="sidebar-logo-icon">
-          {/* Simple truck icon for the fleet app */}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-            <path d="M1 3h15v13H1z" rx="1" />
+            <path d="M1 3h15v13H1z" />
             <path d="M16 8h4l3 4v4h-7V8z" />
             <circle cx="5.5" cy="18.5" r="2.5" />
             <circle cx="18.5" cy="18.5" r="2.5" />
@@ -106,21 +108,24 @@ function Sidebar() {
       {/* Section label */}
       <span className="sidebar-section-label">Main Menu</span>
 
-      {/* Navigation links */}
+      {/* Navigation links — NavLink auto-applies .active class */}
       <nav className="sidebar-nav">
         {navItems.map((item) => (
-          <button
+          <NavLink
             key={item.label}
-            className={`sidebar-link ${activeItem === item.label ? 'active' : ''}`}
-            onClick={() => setActiveItem(item.label)}
+            to={item.to}
+            end={item.end}
+            className={({ isActive }) =>
+              `sidebar-link${isActive ? ' active' : ''}`
+            }
           >
             {item.icon}
             {item.label}
-          </button>
+          </NavLink>
         ))}
       </nav>
 
-      {/* Version tag at the bottom */}
+      {/* Version */}
       <div className="sidebar-bottom">
         <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.25)', paddingLeft: '12px' }}>
           v1.0.0 — Internship Build

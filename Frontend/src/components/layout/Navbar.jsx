@@ -1,11 +1,7 @@
 // Navbar.jsx
-// Top navigation bar shown on every page.
-// Contains: page title, search input, notification button, user profile.
-// Everything here is UI-only — no real search or notification logic yet.
+// Top navigation bar. Accepts a dynamic `title` prop from Layout.
 
 import '../../styles/navbar.css';
-
-// Small SVG icons used in the navbar (inline, no library needed)
 
 function IconSearch() {
   return (
@@ -25,19 +21,16 @@ function IconBell() {
   );
 }
 
-function Navbar() {
+function Navbar({ title = 'Dashboard' }) {
   return (
     <header className="navbar">
 
-      {/* Left side: current page title */}
       <div className="navbar-left">
-        <span className="navbar-page-title">Dashboard</span>
+        <span className="navbar-page-title">{title}</span>
       </div>
 
-      {/* Right side: search + notification + user profile */}
       <div className="navbar-right">
 
-        {/* Search bar — UI only, no logic yet */}
         <div className="navbar-search">
           <IconSearch />
           <input
@@ -47,20 +40,15 @@ function Navbar() {
           />
         </div>
 
-        {/* Divider between search and icon buttons */}
         <div className="navbar-divider" />
 
-        {/* Notification bell with a red badge dot */}
         <button className="navbar-icon-btn" aria-label="Notifications">
           <IconBell />
-          {/* Red dot to show there are unread notifications */}
           <span className="notif-dot" />
         </button>
 
-        {/* Divider before user profile */}
         <div className="navbar-divider" />
 
-        {/* User profile — shows initials and role */}
         <div className="navbar-user" role="button" tabIndex={0} aria-label="User profile">
           <div className="navbar-avatar">AD</div>
           <div className="navbar-user-info">

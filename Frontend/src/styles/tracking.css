@@ -1,0 +1,184 @@
+/*
+ * tracking.css — Full-screen split layout for Live Tracking page.
+ */
+
+.tracking-layout {
+  display: flex;
+  gap: 16px;
+  height: calc(100vh - var(--navbar-height) - 100px);
+  min-height: 500px;
+}
+
+/* ── Left vehicle list panel ───────────────────────────────────────── */
+.tracking-panel {
+  width: 300px;
+  flex-shrink: 0;
+  background: var(--bg-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tracking-panel-head {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--bg-main);
+}
+
+.tracking-panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin-bottom: 10px;
+}
+
+.tracking-search {
+  width: 100%;
+}
+
+.tracking-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.tracking-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(226,232,240,0.6);
+  cursor: pointer;
+  transition: background 0.13s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tracking-item:hover { background: var(--bg-main); }
+
+.tracking-item.active {
+  background: rgba(59,130,246,0.05);
+  border-left: 3px solid var(--color-primary);
+  padding-left: 13px;
+}
+
+.tracking-item-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tracking-item-dot.running  { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
+.tracking-item-dot.idle     { background: #f97316; }
+.tracking-item-dot.offline  { background: #94a3b8; }
+
+.tracking-item-info { flex: 1; min-width: 0; }
+
+.tracking-item-id {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tracking-item-driver {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tracking-item-speed {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+/* ── Right map container ───────────────────────────────────────────── */
+.tracking-map-wrap {
+  flex: 1;
+  position: relative;
+  background: var(--bg-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.tracking-map-wrap .leaflet-container {
+  height: 100%;
+  width: 100%;
+  border-radius: var(--radius-card);
+}
+
+/* ── Floating telemetry card ───────────────────────────────────────── */
+.telemetry-card {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 800;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  padding: 16px;
+  width: 260px;
+  animation: tcFadeIn 0.2s ease;
+}
+
+@keyframes tcFadeIn {
+  from { opacity:0; transform: translateY(-6px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.tc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tc-vehicle-id {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-text-dark);
+}
+
+.tc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  margin-bottom: 8px;
+}
+
+.tc-label { color: var(--color-text-muted); font-weight: 500; }
+.tc-value { color: var(--color-text-dark); font-weight: 600; }
+
+.tc-coords {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  background: var(--bg-main);
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  margin-top: 6px;
+  font-family: monospace;
+}
+
+/* ── Responsive ────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .tracking-layout { flex-direction: column; height: auto; }
+  .tracking-panel  { width: 100%; max-height: 260px; }
+  .tracking-map-wrap { height: 400px; }
+}

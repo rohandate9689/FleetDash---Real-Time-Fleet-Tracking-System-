@@ -34,6 +34,15 @@ const vehicleSchema = new mongoose.Schema(
         default: 0,
       },
     },
+
+    speed: Number,
+    fuel: Number,
+
+    lastGeofence: {
+      type: String,
+      default: null,
+    },
+
   },
   {
     timestamps: true,

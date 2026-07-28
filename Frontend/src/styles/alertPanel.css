@@ -1,155 +1,67 @@
-/*
- * alertPanel.css — Styles for the AlertPanel component
- */
-
-/* Container for list items */
-.alert-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0; /* dividers handle spacing */
+.alert-content-left{
+    flex:1;
 }
 
-/* Alert item block */
-.alert-item {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--color-border);
-  transition: background-color 0.15s ease;
-  gap: 16px;
+.alert-content-right{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
 }
 
-/* Last item shouldn't have a border */
-.alert-item:last-child {
-  border-bottom: none;
+.alert-meta{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
 }
 
-/* Hover background highlight */
-.alert-item:hover {
-  background-color: #f8fafc;
+.alert-meta-dot{
+    width:4px;
+    height:4px;
+    background:#cbd5e1;
+    border-radius:50%;
 }
 
-/* Empty list state text styling */
-.alert-empty {
-  padding: 30px;
-  text-align: center;
-  color: var(--color-text-muted);
-  font-size: 14px;
+.alert-vehicle{
+    font-weight:600;
 }
 
-/* Left part containing alert info details */
-.alert-content-left {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
+.alert-driver{
+    color:#64748b;
 }
 
-/* Vehicle ID and Driver details line */
-.alert-meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-size: 13px;
+.alert-type{
+    background:#f1f5f9;
+    padding:2px 8px;
+    border-radius:6px;
+    font-size:12px;
 }
 
-.alert-vehicle {
-  font-weight: 600;
-  color: var(--color-text-dark);
+.alert-message{
+    margin-top:6px;
 }
 
-.alert-driver {
-  color: var(--color-text-muted);
+.severity-badge{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    min-width:90px;
+    text-align:center;
 }
 
-/* Dot separator */
-.alert-meta-dot {
-  width: 4px;
-  height: 4px;
-  background-color: var(--color-border);
-  border-radius: 50%;
+.success{
+    background:#dcfce7;
+    color:#15803d;
 }
 
-/* Specific warning trigger type */
-.alert-type {
-  font-size: 12px;
-  font-weight: 600;
-  color: #64748b;
-  background-color: #f1f5f9;
-  padding: 2px 8px;
-  border-radius: 4px;
+.danger{
+    background:#fee2e2;
+    color:#dc2626;
 }
 
-/* Description of the alert issue */
-.alert-message {
-  font-size: 13px;
-  color: var(--color-text-muted);
-  line-height: 1.4;
-}
-
-/* Time tag on the right side */
-.alert-time {
-  font-size: 12px;
-  color: var(--color-text-muted);
-  white-space: nowrap;
-}
-
-/* Container for right side column layout */
-.alert-content-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-}
-
-/* ── Severity Badge Styles ─────────────────────────────────────────── */
-.severity-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: capitalize;
-  text-align: center;
-  min-width: 65px;
-}
-
-/* High severity -> Red colors */
-.severity-badge.high {
-  background-color: #fee2e2;
-  color: #b91c1c;
-}
-
-/* Medium severity -> Orange colors */
-.severity-badge.medium {
-  background-color: #ffedd5;
-  color: #c2410c;
-}
-
-/* Low severity -> Blue colors */
-.severity-badge.low {
-  background-color: #dbeafe;
-  color: #1d4ed8;
-}
-
-/* Responsive adjustment for small screens */
-@media (max-width: 576px) {
-  .alert-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  
-  .alert-content-right {
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
-    border-top: 1px dashed var(--color-border);
-    padding-top: 8px;
-  }
+.warning{
+    background:#fef3c7;
+    color:#d97706;
 }

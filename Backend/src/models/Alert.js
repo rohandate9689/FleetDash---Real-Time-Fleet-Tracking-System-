@@ -9,12 +9,17 @@ const alertSchema = new mongoose.Schema(
 
     geofenceName: {
       type: String,
-      required: true,
+      default: null, // Optional for overspeed alerts
     },
 
     type: {
       type: String,
-      enum: ["ENTRY", "EXIT"],
+      enum: [
+        "ENTRY",
+        "EXIT",
+        "OVERSPEED",
+        "LOW_FUEL",
+      ],
       required: true,
     },
 

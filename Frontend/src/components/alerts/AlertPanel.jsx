@@ -20,16 +20,19 @@ function AlertPanel({ alerts = [] }) {
       </div>
 
       <div className="alert-list">
+
         {alerts.length === 0 ? (
+
           <div className="alert-empty">
             No recent alerts
           </div>
+
         ) : (
+
           alerts.map((alert) => (
-            <div
-              className="alert-item"
-              key={alert._id}
-            >
+
+            <div className="alert-item" key={alert._id}>
+
               <div className="alert-content-left">
 
                 <div className="alert-meta">
@@ -38,13 +41,13 @@ function AlertPanel({ alerts = [] }) {
                     {alert.vehicleId}
                   </span>
 
-                  <span className="alert-meta-dot" />
+                  <span className="alert-meta-dot"></span>
 
                   <span className="alert-driver">
-                    {alert.geofenceName}
+                    {alert.geofenceName || "System"}
                   </span>
 
-                  <span className="alert-meta-dot" />
+                  <span className="alert-meta-dot"></span>
 
                   <span className="alert-type">
                     {alert.type}
@@ -63,8 +66,10 @@ function AlertPanel({ alerts = [] }) {
                 <span
                   className={`severity-badge ${
                     alert.type === "ENTRY"
-                      ? "low"
-                      : "high"
+                      ? "success"
+                      : alert.type === "EXIT"
+                      ? "danger"
+                      : "warning"
                   }`}
                 >
                   {alert.type}
@@ -77,8 +82,11 @@ function AlertPanel({ alerts = [] }) {
               </div>
 
             </div>
+
           ))
+
         )}
+
       </div>
 
     </div>

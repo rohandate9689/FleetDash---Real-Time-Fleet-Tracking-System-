@@ -118,7 +118,7 @@ function Alerts() {
             {new Date(latestAlert.createdAt).toLocaleTimeString()})
           </div>
           <span
-            className={`severity-badge ${(latestAlert.type || '').toUpperCase() === 'ENTRY' ? 'low' : 'high'}`}
+            className={`severity-badge ${(latestAlert.type || '').toUpperCase()}`}
             style={{ fontSize: '10px', padding: '2px 8px' }}
           >
             {latestAlert.type}
@@ -169,6 +169,8 @@ function Alerts() {
               <option value="All">All Event Types</option>
               <option value="ENTRY">ENTRY</option>
               <option value="EXIT">EXIT</option>
+              <option value="OVERSPEED">OVERSPEED</option>
+              <option value="LOW_FUEL">LOW_FUEL</option>
             </select>
             <input
               type="date"
@@ -209,7 +211,7 @@ function Alerts() {
             <div className="alert-empty">No alerts match the selected criteria.</div>
           ) : (
             filteredAlerts.map((alert) => (
-              <div className="alert-item" key={alert._id || alert.timestamp || Math.random()}>
+              <div className="alert-item"key={alert._id || `${alert.vehicleId}-${alert.createdAt}`}>
                 <div className="alert-content-left">
                   <div className="alert-meta">
                     <span className="alert-vehicle">{alert.vehicleId}</span>

@@ -33,6 +33,8 @@ function AlertPanel({ alerts = [] }) {
 
             <div className="alert-item" key={alert._id}>
 
+              {/* LEFT */}
+
               <div className="alert-content-left">
 
                 <div className="alert-meta">
@@ -61,17 +63,11 @@ function AlertPanel({ alerts = [] }) {
 
               </div>
 
+              {/* RIGHT */}
+
               <div className="alert-content-right">
 
-                <span
-                  className={`severity-badge ${
-                    alert.type === "ENTRY"
-                      ? "success"
-                      : alert.type === "EXIT"
-                      ? "danger"
-                      : "warning"
-                  }`}
-                >
+                <span className={`severity-badge ${alert.type}`}>
                   {alert.type}
                 </span>
 
